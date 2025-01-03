@@ -1,0 +1,23 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+      target: dev-release
+    ports:
+      - "8080:8080"
+    environment:
+      - STORAGE_EMULATOR_HOST=http://gcs:4443
+    command: ["gunicorn", "app:create_app()", "--reload", "-w", "2", "-b", "0.0.0.0:8080", "--log-level=info"]
+    volumes:
+      - ./src:/app/src
+      - ./app.py:/app/app.py
+
+  gcs:
+    image: fsouza/fake-gcs-server
+    ports:
+      - 4443:4443
+    volumes:
+      - ./.data:/data/local-bucket
+      - ./.storage:/storage
+    command: -scheme http -public-host ${URL:-localhost}:4443 -external-url http://gcs:4443

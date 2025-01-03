@@ -1,0 +1,11 @@
+[project]
+name = "flask-gcs"
+version = "0.1.0"
+description = "Flask application with Google Cloud Storage"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "flask>=3.1.0",
+    "google-cloud-storage>=2.19.0",
+    "gunicorn>=23.0.0",
+]
